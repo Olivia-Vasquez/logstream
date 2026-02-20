@@ -33,6 +33,7 @@
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/zh-Hans/Microsoft.Maui.Controls.resources.dll
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/zh-Hant/Microsoft.Maui.Controls.resources.dll
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/runtimeconfig.bin
+/Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/CommunityToolkit.Mvvm.dll
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/Microsoft.Extensions.Configuration.dll
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/Microsoft.Extensions.Configuration.Abstractions.dll
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/Microsoft.Extensions.DependencyInjection.dll
@@ -47,6 +48,10 @@
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/Microsoft.Maui.dll
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/Microsoft.Maui.Essentials.dll
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/Microsoft.Maui.Graphics.dll
+/Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/SQLite-net.dll
+/Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/SQLitePCLRaw.batteries_v2.dll
+/Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/SQLitePCLRaw.core.dll
+/Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/SQLitePCLRaw.provider.sqlite3.dll
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/Microsoft.Maui.Controls.HotReload.Forms.dll
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-ios/iossimulator-arm64/publish/../LogStream.app/Microsoft.VisualStudio.DesignTools.TapContract.dll

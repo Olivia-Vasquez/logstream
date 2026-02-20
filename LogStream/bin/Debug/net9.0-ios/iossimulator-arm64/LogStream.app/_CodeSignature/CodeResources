@@ -12,17 +12,25 @@
 		<data>
 		VzrOTKGB1DSFj4v0MaI7iMVWX3s=
 		</data>
+		<key>CommunityToolkit.Mvvm.dll</key>
+		<data>
+		MPU8jPoBMsL06FpbCWXg0X+rb+Y=
+		</data>
 		<key>Info.plist</key>
 		<data>
-		nLW5gGqVn6+k0Whao/mFgYhMQLs=
+		iB6kxBmWfCKOGQJ9ovzFsDVwZEY=
 		</data>
 		<key>LogStream.dll</key>
 		<data>
-		zBF0TpqGq2IgxrE/qXdFHjBKUng=
+		NbilQKdmkYWR6glnC37vZhKyF1U=
 		</data>
 		<key>LogStream.pdb</key>
 		<data>
-		Hl9f0z3osu/WKkq2sDvs/1nCnag=
+		LtnQHEc4uul5yOWVvM3/I2TdjPY=
+		</data>
+		<key>MauiInfo.plist</key>
+		<data>
+		iEtuUGCV6JM3gxS/pO33swhmpp8=
 		</data>
 		<key>MauiSplash.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
@@ -155,6 +163,22 @@
 		<key>PrivacyInfo.xcprivacy</key>
 		<data>
 		+59cRc8ev+HwAO70fp1P8R6hyjc=
+		</data>
+		<key>SQLite-net.dll</key>
+		<data>
+		42PRq5815Oe9aTbb+iFnhBSgP3U=
+		</data>
+		<key>SQLitePCLRaw.batteries_v2.dll</key>
+		<data>
+		3eEu2R87cwTQ+GCZvNn72iYjcHw=
+		</data>
+		<key>SQLitePCLRaw.core.dll</key>
+		<data>
+		AEiE31IYMpCWbi+2HDV13xHlgUg=
+		</data>
+		<key>SQLitePCLRaw.provider.sqlite3.dll</key>
+		<data>
+		/OqigeuXI2L9prgtVOnnxCqgE0E=
 		</data>
 		<key>Settings.bundle/Root.plist</key>
 		<data>
@@ -1053,18 +1077,32 @@
 			wMRm8AIKV4UWSgH2XJKcst78QrhEt/lHsqnbgPmsy24=
 			</data>
 		</dict>
+		<key>CommunityToolkit.Mvvm.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			oqsulFVnM7C7ilbH956OoKNj+YTEmgrnV+MponOkV3Q=
+			</data>
+		</dict>
 		<key>LogStream.dll</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			5DkXf2/P0kHGoIuHridizUggwxdrl/KrDE8gr9QJ7Z8=
+			xum7t3v/4cbfjpWXEy3AiYfYOS8BIKNaAXXJCnSrgk0=
 			</data>
 		</dict>
 		<key>LogStream.pdb</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			rsimm6Mm4HvqoKm1hgA16K+B46caIYCLhxaclzjEjOM=
+			+b3NzUDMO7V8O72E3BS9eisDT2aaEPIr+zxxAQv0GO0=
+			</data>
+		</dict>
+		<key>MauiInfo.plist</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			tx0KXqEC+DvcCGyogQTEQWHcCWJYYqH24NtPwhpQEjo=
 			</data>
 		</dict>
 		<key>MauiSplash.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
@@ -1289,6 +1327,34 @@
 			<key>hash2</key>
 			<data>
 			vSdOCYnhm9fj+qcbPQi0IfGVKZjXx/f8EMHfqNdMxU8=
+			</data>
+		</dict>
+		<key>SQLite-net.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			/0h0FMSssyqe6OCqk97walP3tX35PS56JgVOGN+Fcj4=
+			</data>
+		</dict>
+		<key>SQLitePCLRaw.batteries_v2.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			GYVNzEX4ezJINQlWnBSCySOFfyn3DBc3murImG1EqeU=
+			</data>
+		</dict>
+		<key>SQLitePCLRaw.core.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			l57cyQVqwG1fUrEtm3czsSF5FKtQvxI6sxLgJ+esV6U=
+			</data>
+		</dict>
+		<key>SQLitePCLRaw.provider.sqlite3.dll</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			Sn+GJwMFQ/ifB8eT2UGrF/BVLBi4yR3wYIKY7ADv96Y=
 			</data>
 		</dict>
 		<key>Settings.bundle/Root.plist</key>
