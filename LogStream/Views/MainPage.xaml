@@ -4,59 +4,90 @@
              xmlns:viewModels="clr-namespace:LogStream.ViewModels"
              xmlns:models="clr-namespace:LogStream.Models"
              x:Class="LogStream.MainPage"
-             x:DataType="viewModels:MainPageViewModel">
+             x:DataType="viewModels:MainPageViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource OffBlack}}">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid Padding="24" ColumnDefinitions="2*, 5*" ColumnSpacing="36">
+                <!-- Items List -->
+                <ScrollView Grid.Column="0">
+                    <VerticalStackLayout Spacing="16">
+                        <!-- Entry for filtering items -->
+                        <Entry Placeholder="Search items..."
+                               Text="{Binding FilterText}"
+                               Style="{StaticResource PrimaryTextStyle}"
+                               BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                               Margin="0,0,0,8"
+                               />
 
-            <Label
-                Text="Welcome to LogStream"
-                Style="{StaticResource Headline}"
-                SemanticProperties.HeadingLevel="Level1" />
+                        <CollectionView ItemsSource="{Binding Items}"
+                                        SelectionMode="Single"
+                                        SelectedItem="{Binding SelectedItem}"
+                                        SelectionChangedCommand="{Binding ItemSelectedCommand}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:Item">
+                                    <Frame Style="{StaticResource ItemFrameStyle}"
+                                           Margin="0,0,0,8" HeightRequest="80">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding FileName}"
+                                                   Style="{StaticResource PrimaryTextStyle}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="16"/>
+                                            <Label Text="{Binding CreatedAt, StringFormat='Created: {0:MM/dd/yyyy HH:mm:ss}'}"
+                                                   Style="{StaticResource SecondaryTextStyle}" />
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </ScrollView>
 
-            <Label
-                Text="LogStream helps you upload and manage your application logs with ease."
-                Style="{StaticResource SubHeadline}"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome message for the Logstream application." />
+                <!-- Item Details -->
+                <VerticalStackLayout Grid.Column="1" Spacing="16">
+                    <!-- Header and action buttons -->
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <Label Text="Item Details"
+                               Style="{StaticResource Headline}"
+                               FontSize="28"
+                               HorizontalOptions="StartAndExpand"/>
+                        <Button Text="Upload Logs"
+                                Command="{Binding LogUploadCommand}"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Gray900}}"
+                                CornerRadius="12"
+                                />
+                        <Button Text="Generate Sample Logs"
+                                Command="{Binding GenerateSampleLogsCommand}"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray700}}"
+                                CornerRadius="12"
+                                />
+                    </HorizontalStackLayout>
 
-            <Button Text="Create Sample Log Entry"
-                    Command="{Binding CreateSampleLogCommand}"
-                    HorizontalOptions="Fill" />
-            <Button
-                Text="Upload Logs" 
-                SemanticProperties.Hint="Uploads log files to the server"
-                Command="{Binding LogUploadCommand}"
-                HorizontalOptions="Fill" />
-
-            <CollectionView
-                ItemsSource="{Binding LogEntries}"
-                Margin="0,20,0,0"
-                SelectionMode="None">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:LogEntry">
-                        <Frame
-                            BorderColor="#CCCCCC"
-                            CornerRadius="5"
-                            Padding="10"
-                            Margin="0,0,0,10">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding FileName}" FontAttributes="Bold" />
-                                <Label Text="{Binding Message}" />
-                                <Label Text="{Binding CreatedAt, StringFormat='Created at: {0:G}'}" FontAttributes="Italic" FontSize="Small" />
-                            </VerticalStackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </VerticalStackLayout>
-    </ScrollView>
-
+                    <CollectionView ItemsSource="{Binding SelectedItemDetails}" SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:ItemDetail">
+                                <Frame Style="{StaticResource ItemDetailFrameStyle}"
+                                       Margin="0,0,0,8">
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding LineNumber}"
+                                               FontAttributes="Bold"
+                                               Style="{StaticResource PrimaryTextStyle}" />
+                                        <Label Text="{Binding Timestamp, StringFormat='Timestamp: {0:MM/dd/yyyy HH:mm:ss}'}"
+                                               Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Level, StringFormat='Level: {0}'}"
+                                               Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Message, StringFormat='Message: {0}'}"
+                                               Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Raw, StringFormat='Raw: {0}'}"
+                                               Style="{StaticResource SecondaryTextStyle}" />
+                                    </VerticalStackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
 </ContentPage>

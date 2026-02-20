@@ -305,17 +305,3 @@
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-maccatalyst/maccatalyst-arm64/Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-maccatalyst/maccatalyst-arm64/Microsoft.VisualStudio.DesignTools.TapContract.dll
 /Users/oliviavasquez/Projects/logstream/logstream/LogStream/bin/Debug/net9.0-maccatalyst/maccatalyst-arm64/Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Extensions.Configuration.Abstractions.stamp
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Extensions.Configuration.stamp
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Extensions.DependencyInjection.Abstractions.stamp
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Extensions.DependencyInjection.stamp
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Extensions.Logging.Abstractions.stamp
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Extensions.Logging.Debug.stamp
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Extensions.Logging.stamp
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Extensions.Options.stamp
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Extensions.Primitives.stamp
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Maui.Controls.stamp
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Maui.Controls.Xaml.stamp
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Maui.stamp
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Maui.Essentials.stamp
-/Users/oliviavasquez/Projects/logstream/logstream/LogStream/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/Microsoft.Maui.Graphics.stamp

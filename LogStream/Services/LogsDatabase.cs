@@ -12,13 +12,11 @@ public sealed class LogsDatabase
 {
     private readonly SQLiteAsyncConnection _db;
 
-    // one-time init gate (prevents deadlocks + ensures table exists before use)
     private bool _initialized;
     private readonly SemaphoreSlim _initLock = new(1, 1);
 
     public LogsDatabase(string dbPath)
     {
-        // Some default flags that are good for mobile platforms
         _db = new SQLiteAsyncConnection(
             dbPath,
             SQLiteOpenFlags.ReadWrite |
@@ -27,7 +25,6 @@ public sealed class LogsDatabase
         );
     }
 
-    // Ensure the database is initialized (tables created, etc.) before any operations
     private async Task EnsureInitializedAsync()
     {
         if (_initialized) return;
@@ -37,16 +34,24 @@ public sealed class LogsDatabase
         {
             if (_initialized) return;
 
-            // CreateTableAsync already uses "IF NOT EXISTS"
-            await _db.CreateTableAsync<LogEntry>().ConfigureAwait(false);
+            await _db.CreateTableAsync<Item>().ConfigureAwait(false);
+            await _db.CreateTableAsync<ItemDetail>().ConfigureAwait(false);
 
-            // Optional: helpful indexes (safe to call repeatedly if you want)
+            // Indexes (safe to run repeatedly)
             await _db.ExecuteAsync(
-                "CREATE INDEX IF NOT EXISTS idx_logentry_createdat ON LogEntry (CreatedAt)"
+                "CREATE INDEX IF NOT EXISTS idx_items_createdat ON Items (CreatedAt)"
             ).ConfigureAwait(false);
 
             await _db.ExecuteAsync(
-                "CREATE INDEX IF NOT EXISTS idx_logentry_filename ON LogEntry (FileName)"
+                "CREATE INDEX IF NOT EXISTS idx_items_filename ON Items (FileName)"
+            ).ConfigureAwait(false);
+
+            await _db.ExecuteAsync(
+                "CREATE INDEX IF NOT EXISTS idx_itemdetails_itemid_linenumber ON ItemDetails (ItemId, LineNumber)"
+            ).ConfigureAwait(false);
+
+            await _db.ExecuteAsync(
+                "CREATE INDEX IF NOT EXISTS idx_itemdetails_itemid_timestamp ON ItemDetails (ItemId, Timestamp)"
             ).ConfigureAwait(false);
 
             _initialized = true;
@@ -57,34 +62,72 @@ public sealed class LogsDatabase
         }
     }
 
-    public async Task<int> SaveLogAsync(LogEntry entry)
+    public async Task<int> InsertItemAsync(Item item)
     {
-        if (entry is null) throw new ArgumentNullException(nameof(entry));
+        if (item is null) throw new ArgumentNullException(nameof(item));
 
         await EnsureInitializedAsync().ConfigureAwait(false);
-        return await _db.InsertAsync(entry).ConfigureAwait(false);
+        return await _db.InsertAsync(item).ConfigureAwait(false);
     }
 
-    public async Task<List<LogEntry>> GetLogsAsync()
+    public async Task<int> InsertItemDetailAsync(ItemDetail detail)
     {
+        if (detail is null) throw new ArgumentNullException(nameof(detail));
+
         await EnsureInitializedAsync().ConfigureAwait(false);
-        return await _db.Table<LogEntry>()
-                        .OrderByDescending(e => e.CreatedAt)
-                        .ToListAsync()
-                        .ConfigureAwait(false);
+        return await _db.InsertAsync(detail).ConfigureAwait(false);
     }
 
-    public async Task<int> DeleteLogAsync(LogEntry entry)
+    // Bulk insert is important for log files
+    public async Task<int> InsertItemDetailsAsync(IEnumerable<ItemDetail> details)
     {
-        if (entry is null) throw new ArgumentNullException(nameof(entry));
+        if (details is null) throw new ArgumentNullException(nameof(details));
 
         await EnsureInitializedAsync().ConfigureAwait(false);
-        return await _db.DeleteAsync(entry).ConfigureAwait(false);
+
+        var list = details as IList<ItemDetail> ?? details.ToList();
+        if (list.Count == 0) return 0;
+
+        // RunInTransactionAsync is synchronous inside; it’s still the common pattern with sqlite-net
+        await _db.RunInTransactionAsync(conn =>
+        {
+            foreach (var d in list)
+                conn.Insert(d);
+        }).ConfigureAwait(false);
+
+        return list.Count;
     }
 
-    public async Task<int> DeleteAllAsync()
+    public async Task<List<Item>> GetItemsAsync()
     {
         await EnsureInitializedAsync().ConfigureAwait(false);
-        return await _db.DeleteAllAsync<LogEntry>().ConfigureAwait(false);
+        return await _db.Table<Item>()
+            .OrderByDescending(i => i.CreatedAt)
+            .ToListAsync()
+            .ConfigureAwait(false);
+    }
+
+    public async Task<List<ItemDetail>> GetItemDetailsAsync(int itemId)
+    {
+        await EnsureInitializedAsync().ConfigureAwait(false);
+        return await _db.Table<ItemDetail>()
+            .Where(d => d.ItemId == itemId)
+            .OrderByDescending(d => d.Timestamp)
+            .ToListAsync()
+            .ConfigureAwait(false);
+    }
+
+    public async Task<int> DeleteItemAsync(Item item)
+    {
+        if (item is null) throw new ArgumentNullException(nameof(item));
+
+        await EnsureInitializedAsync().ConfigureAwait(false);
+
+        // manual cascade
+        await _db.Table<ItemDetail>()
+            .DeleteAsync(d => d.ItemId == item.Id)
+            .ConfigureAwait(false);
+
+        return await _db.DeleteAsync(item).ConfigureAwait(false);
     }
 }

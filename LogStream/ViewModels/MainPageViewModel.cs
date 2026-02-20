@@ -14,7 +14,15 @@ public partial class MainPageViewModel : ObservableObject
 {
     private LogsDatabase _database;
     [ObservableProperty]
-    private ObservableCollection<LogEntry> _logEntries;
+    private ObservableCollection<Item>? _items;
+    [ObservableProperty]
+    private ObservableCollection<ItemDetail>? _itemDetails;
+
+    [ObservableProperty]
+    private Item? _selectedItem;
+
+    [ObservableProperty]
+    private ObservableCollection<ItemDetail>? _selectedItemDetails;
 
     [ObservableProperty]
     private string? _fileName;
@@ -22,6 +30,8 @@ public partial class MainPageViewModel : ObservableObject
     [ObservableProperty]
     private string? _filePath;
 
+    [ObservableProperty]
+    private string? _filterText;
 
     public MainPageViewModel(LogsDatabase database)
     {
@@ -31,12 +41,14 @@ public partial class MainPageViewModel : ObservableObject
 
     }
 
+
     private void LoadLogs()
     {
         // Placeholder for loading logs from the database
         Console.WriteLine("Loading logs from the database...");
 
-        LogEntries = new ObservableCollection<LogEntry>(_database.GetLogsAsync().Result); // For simplicity, using .Result to wait for the async method
+        Items = new ObservableCollection<Item>(_database.GetItemsAsync().Result); // For simplicity, using .Result to wait for the async method
+        Console.WriteLine($"Loaded {Items.Count} items from the database.");
     }
 
     [RelayCommand]
@@ -108,18 +120,33 @@ public partial class MainPageViewModel : ObservableObject
         Console.WriteLine($"Processing log from: {filePath}");
         // Here you would read the file, create a LogEntry, and save it to the database
 
+        List<ItemDetail> Details = new List<ItemDetail>();
         try
         {
-            var logEntry = new LogEntry
+            var item = new Item
             {
-                FileName = FileName ?? "Error: Unknown File",
-                Message = $"Log file {FileName ?? "Unknown File"} uploaded successfully.",
-                CreatedAt = DateTime.UtcNow
+                FileName = Path.GetFileName(filePath),
+                CreatedAt = DateTime.UtcNow,
+                DetailCount = 0 // This would be updated after processing the file
             };
 
-            // Save to database
-            var saveTask = _database.SaveLogAsync(logEntry);
-            saveTask.Wait(); // Wait for the async operation to complete
+            foreach(var detail in Details)
+            {
+                ItemDetail itemDetail = new ItemDetail
+                {
+                    ItemId = item.Id, // This will be set after the item is saved to the database
+                    LineNumber = detail.LineNumber,
+                    Timestamp = detail.Timestamp,
+                    Level = detail.Level,
+                    Message = detail.Message,
+                    Raw = detail.Raw
+                };
+                item.DetailCount++;
+                _database.InsertItemDetailsAsync(new List<ItemDetail> { itemDetail }).Wait(); // Wait for the async operation to complete
+            }
+
+            // Update the item with the correct DetailCount
+            _database.InsertItemAsync(item).Wait(); // Wait for the async operation to complete
 
             Console.WriteLine("Log entry saved to database.");
         }
@@ -129,6 +156,89 @@ public partial class MainPageViewModel : ObservableObject
         }
 
         LoadLogs(); // Refresh the log entries after processing
+    }
+
+    [RelayCommand]
+    private void GenerateSampleLogs()
+    {
+        // Generate 50 sample items and 200 item details for testing
+
+        for (int i = 1; i <= 50; i++)
+        {
+            var item = new Item
+            {
+                FileName = $"sample_log_{i}.txt",
+                CreatedAt = DateTime.UtcNow.AddMinutes(-i), // Stagger creation times
+                DetailCount = 0
+            };
+            _database.InsertItemAsync(item).Wait(); // Wait for the async operation to complete
+
+            for (int j = 1; j <= 4; j++)
+            {
+                var detail = new ItemDetail
+                {
+                    ItemId = item.Id,
+                    LineNumber = j,
+                    Timestamp = DateTime.UtcNow.AddMinutes(-i).AddSeconds(j), // Stagger timestamps
+                    Level = j % 2 == 0 ? "INFO" : "ERROR",
+                    Message = $"Sample log message {j} for item {i}",
+                    Raw = $"Raw log line {j} for item {i}"
+                };
+                _database.InsertItemDetailAsync(detail).Wait(); // Wait for the async operation to complete
+                item.DetailCount++;
+            }
+
+            // Update the item with the correct DetailCount
+            _database.InsertItemAsync(item).Wait(); // Wait for the async operation to complete
+        }
+
+        // Generate 5-10 sample item details for each item to test large log files
+        for (int i = 1; i <= 50; i++)
+        {
+            var item = new Item
+            {
+                FileName = $"sample_log_{i}.txt",
+                CreatedAt = DateTime.UtcNow.AddMinutes(-i), // Stagger creation times
+                DetailCount = 0
+            };
+            _database.InsertItemAsync(item).Wait(); // Wait for the async operation to complete
+
+            int detailCount = new Random().Next(5, 11); // Generate 5-10 details
+            for (int j = 1; j <= detailCount; j++)
+            {
+                var detail = new ItemDetail
+                {
+                    ItemId = item.Id,
+                    LineNumber = j,
+                    Timestamp = DateTime.UtcNow.AddMinutes(-i).AddSeconds(j), // Stagger timestamps
+                    Level = j % 2 == 0 ? "INFO" : "ERROR",
+                    Message = $"Sample log message {j} for item {i}",
+                    Raw = $"Raw log line {j} for item {i}"
+                };
+                _database.InsertItemDetailAsync(detail).Wait(); // Wait for the async operation to complete
+                item.DetailCount++;
+            }
+
+            // Update the item with the correct DetailCount
+            _database.InsertItemAsync(item).Wait(); // Wait for the async operation to complete
+        }
+
+        LoadLogs(); // Refresh the log entries after generating sample data
+    }
+
+    [RelayCommand]
+    private void ItemSelected()
+    {
+        if (SelectedItem == null)
+        {
+            Console.WriteLine("No item selected.");
+            return;
+        }
+
+        Console.WriteLine($"Item selected: {SelectedItem.FileName}");
+        // Load details for the selected item
+        SelectedItemDetails = new ObservableCollection<ItemDetail>(_database.GetItemDetailsAsync(SelectedItem.Id).Result); // For simplicity, using .Result to wait for the async method
+        Console.WriteLine($"Loaded {SelectedItemDetails.Count} details for selected item.");
     }
 
 
