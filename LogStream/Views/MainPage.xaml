@@ -8,86 +8,95 @@
              BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource OffBlack}}">
 
     <ContentPage.Content>
-        <ScrollView>
-            <Grid Padding="24" ColumnDefinitions="2*, 5*" ColumnSpacing="36">
-                <!-- Items List -->
-                <ScrollView Grid.Column="0">
-                    <VerticalStackLayout Spacing="16">
-                        <!-- Entry for filtering items -->
-                        <Entry Placeholder="Search items..."
-                               Text="{Binding FilterText}"
-                               Style="{StaticResource PrimaryTextStyle}"
-                               BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
-                               Margin="0,0,0,8"
-                               />
+        <Grid Padding="24" ColumnDefinitions="2*, 5*" ColumnSpacing="36" RowDefinitions="Auto, Auto">
+            <!-- Header -->
+            <HorizontalStackLayout Grid.ColumnSpan="2" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center" >
+                <Label Text="LogStream"
+                        Style="{StaticResource Headline}"
+                        HorizontalOptions="Start"
+                        FontSize="28"/>
 
-                        <CollectionView ItemsSource="{Binding Items}"
-                                        SelectionMode="Single"
-                                        SelectedItem="{Binding SelectedItem}"
-                                        SelectionChangedCommand="{Binding ItemSelectedCommand}">
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="models:Item">
-                                    <Frame Style="{StaticResource ItemFrameStyle}"
-                                           Margin="0,0,0,8" HeightRequest="80">
-                                        <VerticalStackLayout>
-                                            <Label Text="{Binding FileName}"
-                                                   Style="{StaticResource PrimaryTextStyle}"
-                                                   FontAttributes="Bold"
-                                                   FontSize="16"/>
-                                            <Label Text="{Binding CreatedAt, StringFormat='Created: {0:MM/dd/yyyy HH:mm:ss}'}"
-                                                   Style="{StaticResource SecondaryTextStyle}" />
-                                        </VerticalStackLayout>
-                                    </Frame>
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </VerticalStackLayout>
-                </ScrollView>
+                <Button Text="Upload Logs"
+                        Command="{Binding LogUploadCommand}"
+                        CornerRadius="12"
+                        HorizontalOptions="End"
+                        />
+                <Button Text="Generate Sample Logs"
+                        Command="{Binding GenerateSampleLogsCommand}"
+                        CornerRadius="12"
+                        HorizontalOptions="End"
+                        />
+            </HorizontalStackLayout>
+            <!-- Items List -->
+            <ScrollView Grid.Column="0" Grid.Row="1">
+                <VerticalStackLayout Spacing="16">
+                    <!-- Entry for filtering items -->
+                    <Entry Placeholder="Search items..."
+                            Text="{Binding FilterText}"
+                            TextChanged="OnFilterTextChanged"
+                            Style="{StaticResource PrimaryTextStyle}"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                            Margin="0,0,0,8"
+                            />
 
-                <!-- Item Details -->
-                <VerticalStackLayout Grid.Column="1" Spacing="16">
-                    <!-- Header and action buttons -->
-                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
-                        <Label Text="Item Details"
-                               Style="{StaticResource Headline}"
-                               FontSize="28"
-                               HorizontalOptions="StartAndExpand"/>
-                        <Button Text="Upload Logs"
-                                Command="{Binding LogUploadCommand}"
-                                BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Gray900}}"
-                                CornerRadius="12"
-                                />
-                        <Button Text="Generate Sample Logs"
-                                Command="{Binding GenerateSampleLogsCommand}"
-                                BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray700}}"
-                                CornerRadius="12"
-                                />
-                    </HorizontalStackLayout>
-
-                    <CollectionView ItemsSource="{Binding SelectedItemDetails}" SelectionMode="None">
+                    <CollectionView ItemsSource="{Binding Items}"
+                                    SelectionMode="Single"
+                                    SelectedItem="{Binding SelectedItem}"
+                                    SelectionChangedCommand="{Binding ItemSelectedCommand}">
                         <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:ItemDetail">
-                                <Frame Style="{StaticResource ItemDetailFrameStyle}"
-                                       Margin="0,0,0,8">
+                            <DataTemplate x:DataType="models:Item">
+                                <Border Style="{StaticResource ItemFrameStyle}"
+                                        Margin="0,0,0,8" HeightRequest="80">
                                     <VerticalStackLayout>
-                                        <Label Text="{Binding LineNumber}"
-                                               FontAttributes="Bold"
-                                               Style="{StaticResource PrimaryTextStyle}" />
-                                        <Label Text="{Binding Timestamp, StringFormat='Timestamp: {0:MM/dd/yyyy HH:mm:ss}'}"
-                                               Style="{StaticResource SecondaryTextStyle}" />
-                                        <Label Text="{Binding Level, StringFormat='Level: {0}'}"
-                                               Style="{StaticResource SecondaryTextStyle}" />
-                                        <Label Text="{Binding Message, StringFormat='Message: {0}'}"
-                                               Style="{StaticResource SecondaryTextStyle}" />
-                                        <Label Text="{Binding Raw, StringFormat='Raw: {0}'}"
-                                               Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding FileName}"
+                                                Style="{StaticResource PrimaryTextStyle}"
+                                                FontAttributes="Bold"
+                                                FontSize="16"/>
+                                        <Label Text="{Binding CreatedAt, StringFormat='Created: {0:MM/dd/yyyy HH:mm:ss}'}"
+                                                Style="{StaticResource SecondaryTextStyle}" />
                                     </VerticalStackLayout>
-                                </Frame>
+                                </Border>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
                 </VerticalStackLayout>
-            </Grid>
-        </ScrollView>
+            </ScrollView>
+
+            <!-- Item Details -->
+            <ScrollView Grid.Row="1" Grid.Column="1" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" Padding="16">
+                <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="16">
+                    <Label Text="{Binding SelectedItem.FileName, StringFormat='File: {0}'}"
+                            Style="{StaticResource Headline}"
+                            FontSize="20"/>
+                    <Label Grid.Row="1" Text="{Binding SelectedItem.CreatedAt, StringFormat='Created: {0:MM/dd/yyyy HH:mm:ss}'}"
+                            Style="{StaticResource SecondaryTextStyle}" />
+
+                    <CollectionView Grid.Row="2" ItemsSource="{Binding SelectedItemDetails}" SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:ItemDetail">
+                                <Border Style="{StaticResource ItemDetailFrameStyle}"
+                                            Margin="0,0,0,8" HeightRequest="80">
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding LineNumber}"
+                                                FontAttributes="Bold"
+                                                Style="{StaticResource PrimaryTextStyle}" />
+                                        <Label Text="{Binding Timestamp, StringFormat='Timestamp: {0:MM/dd/yyyy HH:mm:ss}'}"
+                                                Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Level, StringFormat='Level: {0}'}"
+                                                Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Message, StringFormat='Message: {0}'}"
+                                                Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Raw, StringFormat='Raw: {0}'}"
+                                                Style="{StaticResource SecondaryTextStyle}" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+
+                </Grid>
+            </ScrollView>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

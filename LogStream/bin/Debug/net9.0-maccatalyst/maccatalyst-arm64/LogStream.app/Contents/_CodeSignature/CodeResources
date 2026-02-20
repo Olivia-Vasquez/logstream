@@ -44,6 +44,18 @@
 		<data>
 		km7arW01LDKD2LzrEduLpKYf69k=
 		</data>
+		<key>Resources/plus.png</key>
+		<data>
+		8FlaOYvTO8l+kVfbPyuq4/0f1YY=
+		</data>
+		<key>Resources/plus@2x.png</key>
+		<data>
+		M7zp1Eld68InHI2vYip328VRCTc=
+		</data>
+		<key>Resources/plus@3x.png</key>
+		<data>
+		szG8I5c9KrPa03KxHVVY0eKIHMc=
+		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
@@ -58,14 +70,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			bSCkz/PDCAgDf/UKTr05Y45zK0CfoKmzs2FWv1WLUIY=
+			fVywT/p1e6HINSvJDfTi+HMjs0ZBzGl9kSkHz05tntI=
 			</data>
 		</dict>
 		<key>MonoBundle/LogStream.pdb</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			bhRCXz6A9Rhj2b4CG1bBl5HrxGHSlNsNSF37JNU4jls=
+			fY3zOOG0Ysx2VGomhjKvRFY3yJ1PuRNQLXzqr/I+25w=
 			</data>
 		</dict>
 		<key>MonoBundle/Microsoft.CSharp.dll</key>
@@ -1746,6 +1758,27 @@
 			<key>hash2</key>
 			<data>
 			a/Og/prhaP+ksiVrPdm6zyz46YfBdrD0oFdkAveKI18=
+			</data>
+		</dict>
+		<key>Resources/plus.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			dIUzCwcZdBM4aBykAON2/GpOck+vE1wO21PoveBrSF0=
+			</data>
+		</dict>
+		<key>Resources/plus@2x.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			6HMZjDxM6k9j/fcZFREAFiGnGqLbb68vDJy/ig6N4j4=
+			</data>
+		</dict>
+		<key>Resources/plus@3x.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			U5gre913zVH/Ibq8e0qpLVWOedjC/raXxon/a/DnI+8=
 			</data>
 		</dict>
 	</dict>

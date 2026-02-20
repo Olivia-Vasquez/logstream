@@ -463,44 +463,51 @@
         <Setter Property="FontSize" Value="12" />
     </Style>
 
-    <!-- Frame styles -->
-    <Style TargetType="Frame" x:Key="CardStyle">
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="CornerRadius" Value="8" />
+    <!-- Border styles replacing Frame styles -->
+    <Style TargetType="Border" x:Key="CardStyle">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
         <Setter Property="Padding" Value="10" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
-        <Setter Property="HasShadow" Value="True" />
     </Style>
 
-    <Style TargetType="Frame" x:Key="ListItemStyle">
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="CornerRadius" Value="5" />
+    <Style TargetType="Border" x:Key="ListItemStyle">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
         <Setter Property="Padding" Value="10" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
-        <Setter Property="HasShadow" Value="False" />
     </Style>
 
-    <Style TargetType="Frame" x:Key="DetailCardStyle">
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="CornerRadius" Value="8" />
+    <!-- CardShadow resource for card-like elevation -->
+    <Shadow x:Key="CardShadow"
+        Brush="Black"
+        Opacity="0.2"
+        Radius="8"
+        Offset="0,4" />
+
+    <Style TargetType="Border" x:Key="DetailCardStyle">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
         <Setter Property="Padding" Value="15" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
-        <Setter Property="HasShadow" Value="True" />
     </Style>
 
-    <Style TargetType="Frame" x:Key="ItemFrameStyle">
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="CornerRadius" Value="5" />
+    <Style TargetType="Border" x:Key="ItemFrameStyle">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark=#605e6e}" />
         <Setter Property="Padding" Value="10" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}" />
-        <Setter Property="HasShadow" Value="False" />
     </Style>
 
-    <Style TargetType="Frame" x:Key="ItemDetailFrameStyle">
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="CornerRadius" Value="5" />
+    <Style TargetType="Border" x:Key="ItemDetailFrameStyle">
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark=#615e7d}" />
         <Setter Property="Padding" Value="10" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}" />
-        <Setter Property="HasShadow" Value="False" />
     </Style>
 </ResourceDictionary>

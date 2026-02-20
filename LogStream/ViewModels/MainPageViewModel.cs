@@ -2,11 +2,13 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using __XamlGeneratedCode__;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LogStream.Models;
 using LogStream.Services;
 using Microsoft.Maui.Storage;
+using ObjCRuntime;
 
 namespace LogStream.ViewModels;
 
@@ -118,7 +120,7 @@ public partial class MainPageViewModel : ObservableObject
     {
         // Placeholder for actual processing logic
         Console.WriteLine($"Processing log from: {filePath}");
-        // Here you would read the file, create a LogEntry, and save it to the database
+        // Parse the log file and create Item and ItemDetail entries in the database
 
         List<ItemDetail> Details = new List<ItemDetail>();
         try
@@ -127,22 +129,33 @@ public partial class MainPageViewModel : ObservableObject
             {
                 FileName = Path.GetFileName(filePath),
                 CreatedAt = DateTime.UtcNow,
-                DetailCount = 0 // This would be updated after processing the file
+                DetailCount = 0 // This will be updated after processing the file
             };
 
-            foreach(var detail in Details)
+            string[] logLines = File.ReadAllLines(filePath);
+
+            foreach (var line in logLines)
             {
-                ItemDetail itemDetail = new ItemDetail
+                line.Trim();
+                // Each line is formatted as [2026-02-19 14:23:45] INFO: Sample log message
+                line.Split(' ', 3); // Split into timestamp, level, and message
+
+                dynamic timestamp = line[0]; // This would be parsed from the log line
+                dynamic level = line[1]; // This would be parsed from the log line
+                dynamic message = line[2]; // This would be parsed from the log line
+
+                ItemDetail detail = new ItemDetail
                 {
-                    ItemId = item.Id, // This will be set after the item is saved to the database
-                    LineNumber = detail.LineNumber,
-                    Timestamp = detail.Timestamp,
-                    Level = detail.Level,
-                    Message = detail.Message,
-                    Raw = detail.Raw
+                    LineNumber = 0, // This would be set based on the line number in the file
+                    Timestamp = timestamp, // This would be parsed from the log line
+                    Level = level, // This would be parsed from the log line
+                    Message = message, // This would be parsed from the log line
+                    Raw = line // Store the raw log line for reference
                 };
                 item.DetailCount++;
-                _database.InsertItemDetailsAsync(new List<ItemDetail> { itemDetail }).Wait(); // Wait for the async operation to complete
+                _database.InsertItemDetailAsync(detail).Wait(); // Wait for the async operation to complete
+
+
             }
 
             // Update the item with the correct DetailCount
@@ -158,10 +171,11 @@ public partial class MainPageViewModel : ObservableObject
         LoadLogs(); // Refresh the log entries after processing
     }
 
+
     [RelayCommand]
     private void GenerateSampleLogs()
     {
-        // Generate 50 sample items and 200 item details for testing
+        // Generate 50 sample items with unique names names and 200 item details for testing
 
         for (int i = 1; i <= 50; i++)
         {
@@ -224,6 +238,25 @@ public partial class MainPageViewModel : ObservableObject
         }
 
         LoadLogs(); // Refresh the log entries after generating sample data
+    }
+
+    [RelayCommand]
+    private void ApplyFilter()
+    {
+        if (string.IsNullOrWhiteSpace(FilterText))
+        {
+            // If filter is empty, show all items
+            Items = new ObservableCollection<Item>(_database.GetItemsAsync().Result); // For simplicity, using .Result to wait for the async method
+        }
+        else
+        {
+            // Filter items based on FileName containing the filter text
+            var filteredItems = _database.GetItemsAsync().Result
+                .Where(item => item.FileName.Contains(FilterText, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            Items = new ObservableCollection<Item>(filteredItems);
+        }
     }
 
     [RelayCommand]

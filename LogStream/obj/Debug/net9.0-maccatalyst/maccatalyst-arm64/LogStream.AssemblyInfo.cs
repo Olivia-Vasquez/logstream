@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LogStream")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+cd9469b29c8487ffefbec5b2773e7988c1f979a4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+35e0150bd1e76b98cff12a2907e84e1753dc7ca7")]
 [assembly: System.Reflection.AssemblyProductAttribute("LogStream")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LogStream")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
