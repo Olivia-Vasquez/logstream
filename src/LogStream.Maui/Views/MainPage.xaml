@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:LogStream.ViewModels"
+             xmlns:models="clr-namespace:LogStream.Models"
+             x:Class="LogStream.MainPage"
+             x:DataType="viewModels:MainPageViewModel"
+             BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource OffBlack}}">
+
+    <ContentPage.Content>
+        <Grid Padding="24" ColumnDefinitions="2*, 5*" ColumnSpacing="36" RowDefinitions="Auto, Auto">
+            <!-- Header -->
+            <HorizontalStackLayout Grid.ColumnSpan="2" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center" >
+                <Label Text="LogStream"
+                        Style="{StaticResource Headline}"
+                        HorizontalOptions="Start"
+                        FontSize="28"/>
+
+                <Button Text="Upload Logs"
+                        Command="{Binding LogUploadCommand}"
+                        CornerRadius="12"
+                        HorizontalOptions="End"
+                        />
+                <Button Text="Generate Sample Logs"
+                        Command="{Binding GenerateSampleLogsCommand}"
+                        CornerRadius="12"
+                        HorizontalOptions="End"
+                        />
+            </HorizontalStackLayout>
+            <!-- Items List -->
+            <ScrollView Grid.Column="0" Grid.Row="1">
+                <VerticalStackLayout Spacing="16">
+                    <!-- Entry for filtering items -->
+                    <Entry Placeholder="Search items..."
+                            Text="{Binding FilterText}"
+                            TextChanged="OnFilterTextChanged"
+                            Style="{StaticResource PrimaryTextStyle}"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}"
+                            Margin="0,0,0,8"
+                            />
+
+                    <CollectionView ItemsSource="{Binding Items}"
+                                    SelectionMode="Single"
+                                    SelectedItem="{Binding SelectedItem}"
+                                    SelectionChangedCommand="{Binding ItemSelectedCommand}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Item">
+                                <Border Style="{StaticResource ItemFrameStyle}"
+                                        Margin="0,0,0,8" HeightRequest="80">
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding FileName}"
+                                                Style="{StaticResource PrimaryTextStyle}"
+                                                FontAttributes="Bold"
+                                                FontSize="16"/>
+                                        <Label Text="{Binding CreatedAt, StringFormat='Created: {0:MM/dd/yyyy HH:mm:ss}'}"
+                                                Style="{StaticResource SecondaryTextStyle}" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <!-- Item Details -->
+            <ScrollView Grid.Row="1" Grid.Column="1" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" Padding="16">
+                <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="16">
+                    <Label Text="{Binding SelectedItem.FileName, StringFormat='File: {0}'}"
+                            Style="{StaticResource Headline}"
+                            FontSize="20"/>
+                    <Label Grid.Row="1" Text="{Binding SelectedItem.CreatedAt, StringFormat='Created: {0:MM/dd/yyyy HH:mm:ss}'}"
+                            Style="{StaticResource SecondaryTextStyle}" />
+
+                    <CollectionView Grid.Row="2" ItemsSource="{Binding SelectedItemDetails}" SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:ItemDetail">
+                                <Border Style="{StaticResource ItemDetailFrameStyle}"
+                                            Margin="0,0,0,8" HeightRequest="80">
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding LineNumber}"
+                                                FontAttributes="Bold"
+                                                Style="{StaticResource PrimaryTextStyle}" />
+                                        <Label Text="{Binding Timestamp, StringFormat='Timestamp: {0:MM/dd/yyyy HH:mm:ss}'}"
+                                                Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Level, StringFormat='Level: {0}'}"
+                                                Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Message, StringFormat='Message: {0}'}"
+                                                Style="{StaticResource SecondaryTextStyle}" />
+                                        <Label Text="{Binding Raw, StringFormat='Raw: {0}'}"
+                                                Style="{StaticResource SecondaryTextStyle}" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+
+                </Grid>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

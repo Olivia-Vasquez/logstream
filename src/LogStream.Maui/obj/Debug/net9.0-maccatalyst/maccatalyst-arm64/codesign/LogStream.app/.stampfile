@@ -1,0 +1,1 @@
+-v --force --timestamp=none --sign - --entitlements /Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/Entitlements.xcent /Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/bin/Debug/net9.0-maccatalyst/maccatalyst-arm64/LogStream.app
