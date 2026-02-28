@@ -6,7 +6,9 @@ using __XamlGeneratedCode__;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LogStream.Core.Models;
-using LogStream.Services;
+using LogStream.Core.Services;
+using LogStream.Core.Parsing;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Storage;
 using ObjCRuntime;
 
@@ -15,6 +17,8 @@ namespace LogStream.ViewModels;
 public partial class MainPageViewModel : ObservableObject
 {
     private LogsDatabase _database;
+
+    private ILogParser _logParser; 
     [ObservableProperty]
     private ObservableCollection<Item>? _items;
     [ObservableProperty]
@@ -40,6 +44,7 @@ public partial class MainPageViewModel : ObservableObject
         // Inject database service
         _database = database;
         LoadLogs();
+        _logParser = new FileLogParser(_database); // Initialize the FileLogParser
 
     }
 
@@ -77,7 +82,7 @@ public partial class MainPageViewModel : ObservableObject
 
         try
         {
-            // Create custome filepicker file type
+            // Create custom filepicker file type
             var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
             {
                 { DevicePlatform.iOS, new[] { "public.plain-text" } }, // UTI for .txt files
@@ -120,48 +125,18 @@ public partial class MainPageViewModel : ObservableObject
     {
         // Placeholder for actual processing logic
         Console.WriteLine($"Processing log from: {filePath}");
-        // Parse the log file and create Item and ItemDetail entries in the database
 
-        List<ItemDetail> Details = new List<ItemDetail>();
+
         try
         {
-            var item = new Item
+            // Use ILogParser with FileLogParser implementation to check if the file can be parsed
+            if (!_logParser.CanParse(filePath))
             {
-                FileName = Path.GetFileName(filePath),
-                CreatedAt = DateTime.UtcNow,
-                DetailCount = 0 // This will be updated after processing the file
-            };
-
-            string[] logLines = File.ReadAllLines(filePath);
-
-            foreach (var line in logLines)
-            {
-                line.Trim();
-                // Each line is formatted as [2026-02-19 14:23:45] INFO: Sample log message
-                line.Split(' ', 3); // Split into timestamp, level, and message
-
-                dynamic timestamp = line[0]; // This would be parsed from the log line
-                dynamic level = line[1]; // This would be parsed from the log line
-                dynamic message = line[2]; // This would be parsed from the log line
-
-                ItemDetail detail = new ItemDetail
-                {
-                    LineNumber = 0, // This would be set based on the line number in the file
-                    Timestamp = timestamp, // This would be parsed from the log line
-                    Level = level, // This would be parsed from the log line
-                    Message = message, // This would be parsed from the log line
-                    Raw = line // Store the raw log line for reference
-                };
-                item.DetailCount++;
-                _database.InsertItemDetailAsync(detail).Wait(); // Wait for the async operation to complete
-
-
+                Console.WriteLine("Selected file cannot be parsed by the log parser.");
+                return;
             }
-
-            // Update the item with the correct DetailCount
-            _database.InsertItemAsync(item).Wait(); // Wait for the async operation to complete
-
-            Console.WriteLine("Log entry saved to database.");
+            // Use ILogParser with FileLogParser implementation to parse the log file and create Item and ItemDetail entries in the database
+            _logParser.Parse(filePath);
         }
         catch (Exception ex)
         {

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ephRxbIGtq0=",
+  "dgSpecHash": "5h/tFuMJ3yU=",
   "success": true,
-  "projectFilePath": "/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/LogStream.csproj",
+  "projectFilePath": "/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/LogStream.Maui.csproj",
   "expectedPackageFiles": [
     "/Users/oliviavasquez/.nuget/packages/communitytoolkit.mvvm/8.2.2/communitytoolkit.mvvm.8.2.2.nupkg.sha512",
     "/Users/oliviavasquez/.nuget/packages/microsoft.extensions.configuration/9.0.9/microsoft.extensions.configuration.9.0.9.nupkg.sha512",

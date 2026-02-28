@@ -2378,9 +2378,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/LogStream.csproj",
-      "projectName": "LogStream",
-      "projectPath": "/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/LogStream.csproj",
+      "projectUniqueName": "/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/LogStream.Maui.csproj",
+      "projectName": "LogStream.Maui",
+      "projectPath": "/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/LogStream.Maui.csproj",
       "packagesPath": "/Users/oliviavasquez/.nuget/packages/",
       "outputPath": "/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/obj/",
       "projectStyle": "PackageReference",

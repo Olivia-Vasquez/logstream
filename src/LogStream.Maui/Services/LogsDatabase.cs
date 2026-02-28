@@ -7,7 +7,7 @@ using SQLite;
 using LogStream.Core.Models;
 using LogStream.Core.Services;
 
-namespace LogStream.Services;
+namespace LogStream.Core.Services;
 
 public sealed class LogsDatabase : ILogsDatabase
 {
@@ -130,5 +130,13 @@ public sealed class LogsDatabase : ILogsDatabase
             .ConfigureAwait(false);
 
         return await _db.DeleteAsync(item).ConfigureAwait(false);
+    }
+
+    public async Task<int> UpdateItemAsync(Item item)
+    {
+        if (item is null) throw new ArgumentNullException(nameof(item));
+
+        await EnsureInitializedAsync().ConfigureAwait(false);
+        return await _db.UpdateAsync(item).ConfigureAwait(false);
     }
 }

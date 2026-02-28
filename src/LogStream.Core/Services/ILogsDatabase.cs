@@ -11,5 +11,6 @@ namespace LogStream.Core.Services
         Task<List<Models.Item>> GetItemsAsync();
         Task<List<Models.ItemDetail>> GetItemDetailsAsync(int itemId);
         Task<int> DeleteItemAsync(Models.Item item);
+        Task<int> UpdateItemAsync(Models.Item item);
     }
 }
