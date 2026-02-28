@@ -42,14 +42,14 @@ static const char *xamarin_runtime_libraries_array[] = {
 	"libSystem.Net.Security.Native",
 	"libSystem.Security.Cryptography.Native.Apple",
 	"libmono-component-debugger-static",
-	"libmono-component-diagnostics_tracing-static",
+	"libmono-component-diagnostics_tracing-stub-static",
 	"libmono-component-hot_reload-static",
 	"libmono-component-marshal-ilgen-static",
 	"libmonosgen-2.0",
 	"libmono-component-debugger-static",
 	"libmono-component-hot_reload-static",
-	"libmono-component-diagnostics_tracing-static",
 	"libmono-component-marshal-ilgen-static",
+	"libmono-component-diagnostics_tracing-stub-static",
 	NULL
 };
 void xamarin_setup_impl ()
@@ -64,14 +64,13 @@ void xamarin_setup_impl ()
 	xamarin_runtime_libraries = xamarin_runtime_libraries_array;
 	xamarin_gc_pump = FALSE;
 	xamarin_init_mono_debug = TRUE;
-	xamarin_executable_name = "LogStream.dll";
+	xamarin_executable_name = "LogStream.Maui.dll";
 	mono_use_llvm = FALSE;
 	xamarin_log_level = 0;
 	xamarin_arch_name = "arm64";
 	xamarin_marshal_objectivec_exception_mode = MarshalObjectiveCExceptionModeThrowManagedException;
 	xamarin_debug_mode = TRUE;
 	setenv ("MONO_GC_PARAMS", "major=marksweep", 1);
-	setenv ("DOTNET_DiagnosticPorts", "127.0.0.1:9000,listen,nosuspend", 0);
 	xamarin_supports_dynamic_registration = TRUE;
 	xamarin_runtime_configuration_name = "runtimeconfig.bin";
 }

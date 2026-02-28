@@ -16,19 +16,19 @@ namespace LogStream.ViewModels;
 
 public partial class MainPageViewModel : ObservableObject
 {
-    private LogsDatabase _database;
-
-    private ILogParser _logParser; 
-    [ObservableProperty]
-    private ObservableCollection<Item>? _items;
-    [ObservableProperty]
-    private ObservableCollection<ItemDetail>? _itemDetails;
+    private readonly LogStream.Core.Abstractions.ILogRepository _repository;
+    private ILogParser? _logParser;
 
     [ObservableProperty]
-    private Item? _selectedItem;
+    private ObservableCollection<LogUpload>? _uploads;
+    [ObservableProperty]
+    private ObservableCollection<LogEntry>? _entries;
 
     [ObservableProperty]
-    private ObservableCollection<ItemDetail>? _selectedItemDetails;
+    private LogUpload? _selectedUpload;
+
+    [ObservableProperty]
+    private ObservableCollection<LogEntry>? _selectedUploadEntries;
 
     [ObservableProperty]
     private string? _fileName;
@@ -39,180 +39,123 @@ public partial class MainPageViewModel : ObservableObject
     [ObservableProperty]
     private string? _filterText;
 
-    public MainPageViewModel(LogsDatabase database)
+    public MainPageViewModel(LogStream.Core.Abstractions.ILogRepository repository)
     {
-        // Inject database service
-        _database = database;
-        LoadLogs();
-        _logParser = new FileLogParser(_database); // Initialize the FileLogParser
-
+        _repository = repository;
+        LoadUploads();
+        // _logParser = new FileLogParser(_repository); // If parser needs repository
     }
 
 
-    private void LoadLogs()
+    private void LoadUploads()
     {
-        // Placeholder for loading logs from the database
-        Console.WriteLine("Loading logs from the database...");
-
-        Items = new ObservableCollection<Item>(_database.GetItemsAsync().Result); // For simplicity, using .Result to wait for the async method
-        Console.WriteLine($"Loaded {Items.Count} items from the database.");
+        // Loads uploads from repository
+        Console.WriteLine("Loading uploads from repository...");
+        var uploads = _repository.GetUploadsAsync().Result;
+        Uploads = new ObservableCollection<LogUpload>(uploads);
+        Console.WriteLine($"Loaded {Uploads.Count} uploads from repository.");
     }
 
     [RelayCommand]
     private void CreateSampleLog()
     {
-        // Placeholder for creating a log entry
         Console.WriteLine("CreateSampleLog command executed.");
-        
-        // Create a sample txt file in the app's data directory for testing 
         var sampleFilePath = Path.Combine(FileSystem.AppDataDirectory, "sample_log.txt");
-
         File.WriteAllText(sampleFilePath, "This is a sample log entry.");
         Console.WriteLine($"Sample log file created at: {sampleFilePath}");
     }
 
     [RelayCommand]
     /// <summary>
-    /// Uploads the logs to the server.
+    /// Uploads the logs to the repository.
     /// </summary>
     public async Task LogUpload()
     {
-        // Checkpoint: Log upload initiated
         Console.WriteLine("Log upload initiated.");
-
         try
         {
-            // Create custom filepicker file type
             var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
             {
-                { DevicePlatform.iOS, new[] { "public.plain-text" } }, // UTI for .txt files
-                { DevicePlatform.Android, new[] { "text/plain" } }, // MIME type for .txt files
-                { DevicePlatform.WinUI, new[] { ".txt" } }, // Extension for .txt files
-                { DevicePlatform.MacCatalyst, new[] { "public.plain-text" } } // UTI for .txt files
+                { DevicePlatform.iOS, new[] { "public.plain-text" } },
+                { DevicePlatform.Android, new[] { "text/plain" } },
+                { DevicePlatform.WinUI, new[] { ".txt" } },
+                { DevicePlatform.MacCatalyst, new[] { "public.plain-text" } }
             });
-            // Set up picker options
             var options = new PickOptions
             {
                 PickerTitle = "Select log file to upload",
-                FileTypes = customFileType // You can customize this to specific extensions if needed
+                FileTypes = customFileType
             };
-
             var result = await FilePicker.Default.PickAsync();
             if (result == null)
             {
                 Console.WriteLine("No file selected for upload.");
                 return;
             }
-            else
-            {
-                Console.WriteLine("File selected for upload. Processing...");
-                FileName = result.FileName;
-                FilePath = result.FullPath;
-                ProcessLogEntry(FilePath);
-            }
+            FileName = result.FileName;
+            FilePath = result.FullPath;
+            await ProcessLogEntryAsync(FilePath);
         }
         catch (Exception ex)
         {
             Console.WriteLine($"File pick error: {ex.Message}");
             return;
         }
-        
-
-
     }
 
-    private void ProcessLogEntry(string filePath)
+    private async Task ProcessLogEntryAsync(string filePath)
     {
-        // Placeholder for actual processing logic
         Console.WriteLine($"Processing log from: {filePath}");
-
-
         try
         {
-            // Use ILogParser with FileLogParser implementation to check if the file can be parsed
-            if (!_logParser.CanParse(filePath))
+            // Example: create a new upload and add entries
+            var upload = new LogUpload
             {
-                Console.WriteLine("Selected file cannot be parsed by the log parser.");
-                return;
-            }
-            // Use ILogParser with FileLogParser implementation to parse the log file and create Item and ItemDetail entries in the database
-            _logParser.Parse(filePath);
+                Id = Guid.NewGuid(),
+                FileName = Path.GetFileName(filePath),
+                CreatedUtc = DateTimeOffset.UtcNow
+            };
+            await _repository.CreateUploadAsync(upload);
+            // Parse file and add entries (stub)
+            var lines = await File.ReadAllLinesAsync(filePath);
+            var entries = lines.Select(line => new LogEntry
+            {
+                FileName = upload.FileName,
+                Message = line,
+                CreatedAt = DateTime.UtcNow
+            });
+            await _repository.AddEntriesAsync(upload.Id, entries);
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error processing log entry: {ex.Message}");
         }
-
-        LoadLogs(); // Refresh the log entries after processing
+        LoadUploads();
     }
 
 
     [RelayCommand]
-    private void GenerateSampleLogs()
+    private async Task GenerateSampleLogsAsync()
     {
-        // Generate 50 sample items with unique names names and 200 item details for testing
-
         for (int i = 1; i <= 50; i++)
         {
-            var item = new Item
+            var upload = new LogUpload
             {
+                Id = Guid.NewGuid(),
                 FileName = $"sample_log_{i}.txt",
-                CreatedAt = DateTime.UtcNow.AddMinutes(-i), // Stagger creation times
-                DetailCount = 0
+                CreatedUtc = DateTimeOffset.UtcNow.AddMinutes(-i)
             };
-            _database.InsertItemAsync(item).Wait(); // Wait for the async operation to complete
-
-            for (int j = 1; j <= 4; j++)
+            await _repository.CreateUploadAsync(upload);
+            int detailCount = new Random().Next(5, 11);
+            var entries = Enumerable.Range(1, detailCount).Select(j => new LogEntry
             {
-                var detail = new ItemDetail
-                {
-                    ItemId = item.Id,
-                    LineNumber = j,
-                    Timestamp = DateTime.UtcNow.AddMinutes(-i).AddSeconds(j), // Stagger timestamps
-                    Level = j % 2 == 0 ? "INFO" : "ERROR",
-                    Message = $"Sample log message {j} for item {i}",
-                    Raw = $"Raw log line {j} for item {i}"
-                };
-                _database.InsertItemDetailAsync(detail).Wait(); // Wait for the async operation to complete
-                item.DetailCount++;
-            }
-
-            // Update the item with the correct DetailCount
-            _database.InsertItemAsync(item).Wait(); // Wait for the async operation to complete
+                FileName = upload.FileName,
+                Message = $"Sample log message {j} for upload {i}",
+                CreatedAt = DateTime.UtcNow.AddMinutes(-i).AddSeconds(j)
+            });
+            await _repository.AddEntriesAsync(upload.Id, entries);
         }
-
-        // Generate 5-10 sample item details for each item to test large log files
-        for (int i = 1; i <= 50; i++)
-        {
-            var item = new Item
-            {
-                FileName = $"sample_log_{i}.txt",
-                CreatedAt = DateTime.UtcNow.AddMinutes(-i), // Stagger creation times
-                DetailCount = 0
-            };
-            _database.InsertItemAsync(item).Wait(); // Wait for the async operation to complete
-
-            int detailCount = new Random().Next(5, 11); // Generate 5-10 details
-            for (int j = 1; j <= detailCount; j++)
-            {
-                var detail = new ItemDetail
-                {
-                    ItemId = item.Id,
-                    LineNumber = j,
-                    Timestamp = DateTime.UtcNow.AddMinutes(-i).AddSeconds(j), // Stagger timestamps
-                    Level = j % 2 == 0 ? "INFO" : "ERROR",
-                    Message = $"Sample log message {j} for item {i}",
-                    Raw = $"Raw log line {j} for item {i}"
-                };
-                _database.InsertItemDetailAsync(detail).Wait(); // Wait for the async operation to complete
-                item.DetailCount++;
-            }
-
-            // Update the item with the correct DetailCount
-            _database.InsertItemAsync(item).Wait(); // Wait for the async operation to complete
-        }
-
-        LoadLogs(); // Refresh the log entries after generating sample data
+        LoadUploads();
     }
 
     [RelayCommand]
@@ -220,33 +163,29 @@ public partial class MainPageViewModel : ObservableObject
     {
         if (string.IsNullOrWhiteSpace(FilterText))
         {
-            // If filter is empty, show all items
-            Items = new ObservableCollection<Item>(_database.GetItemsAsync().Result); // For simplicity, using .Result to wait for the async method
+            LoadUploads();
         }
         else
         {
-            // Filter items based on FileName containing the filter text
-            var filteredItems = _database.GetItemsAsync().Result
-                .Where(item => item.FileName.Contains(FilterText, StringComparison.OrdinalIgnoreCase))
+            var uploads = _repository.GetUploadsAsync().Result
+                .Where(u => u.FileName.Contains(FilterText, StringComparison.OrdinalIgnoreCase))
                 .ToList();
-
-            Items = new ObservableCollection<Item>(filteredItems);
+            Uploads = new ObservableCollection<LogUpload>(uploads);
         }
     }
 
     [RelayCommand]
-    private void ItemSelected()
+    private void UploadSelected()
     {
-        if (SelectedItem == null)
+        if (SelectedUpload == null)
         {
-            Console.WriteLine("No item selected.");
+            Console.WriteLine("No upload selected.");
             return;
         }
-
-        Console.WriteLine($"Item selected: {SelectedItem.FileName}");
-        // Load details for the selected item
-        SelectedItemDetails = new ObservableCollection<ItemDetail>(_database.GetItemDetailsAsync(SelectedItem.Id).Result); // For simplicity, using .Result to wait for the async method
-        Console.WriteLine($"Loaded {SelectedItemDetails.Count} details for selected item.");
+        Console.WriteLine($"Upload selected: {SelectedUpload.FileName}");
+        var entries = _repository.GetEntriesAsync(SelectedUpload.Id).Result;
+        SelectedUploadEntries = new ObservableCollection<LogEntry>(entries);
+        Console.WriteLine($"Loaded {SelectedUploadEntries.Count} entries for selected upload.");
     }
 
 

@@ -3,7 +3,8 @@ using LogStream.ViewModels;
 
 using System.IO;
 using Microsoft.Maui.Storage;
-using LogStream.Services;
+using LogStream.Maui.Services;
+using LogStream.Core.Services;
 
 namespace LogStream;
 
@@ -24,6 +25,12 @@ public static class MauiProgram
 		var dbPath = Path.Combine(FileSystem.AppDataDirectory, "LogsDB.db3");
 		builder.Services.AddSingleton(new LogsDatabase(dbPath));
 
+		// Register repository
+		builder.Services.AddSingleton<LogStream.Core.Abstractions.ILogRepository, LogStream.Maui.Services.SqliteLogRepository>(sp =>
+		{
+			var db = sp.GetRequiredService<LogsDatabase>();
+			return new LogStream.Maui.Services.SqliteLogRepository(db);
+		});
 
 		// Register ViewModels
 		builder.Services.AddTransient<MainPageViewModel>();

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <_CodesignBundle Include="LogStream.app">
+    <_CodesignBundle Include="LogStream.Maui.app">
       <EnableCodeSigning>true</EnableCodeSigning>
       <CodesignSigningKey>-</CodesignSigningKey>
       <CodesignEntitlements>/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/Entitlements.xcent</CodesignEntitlements>

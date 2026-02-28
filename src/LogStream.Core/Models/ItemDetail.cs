@@ -20,5 +20,8 @@ namespace LogStream.Core.Models
         public string Message { get; set; } = string.Empty;
 
         public string Raw { get; set; } = string.Empty;
+
+        // File name for repository mapping
+        public string FileName { get; set; } = string.Empty;
     }
 }

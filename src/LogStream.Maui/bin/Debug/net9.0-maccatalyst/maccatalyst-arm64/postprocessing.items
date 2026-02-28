@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <_PostProcessingItem Include="LogStream.app/Contents/MacOS/LogStream">
+    <_PostProcessingItem Include="LogStream.Maui.app/Contents/MacOS/LogStream.Maui">
       <IsAppExtension>false</IsAppExtension>
-      <BCSymbolMapName>LogStream.bcsymbolmap</BCSymbolMapName>
+      <BCSymbolMapName>LogStream.Maui.bcsymbolmap</BCSymbolMapName>
       <NoDSymUtil>true</NoDSymUtil>
       <dSYMSourcePathExists>false</dSYMSourcePathExists>
       <NoSymbolStrip>true</NoSymbolStrip>
-      <dSYMInfoPlistRelativePath>LogStream.app.dSYM\Contents\Info.plist</dSYMInfoPlistRelativePath>
+      <dSYMInfoPlistRelativePath>LogStream.Maui.app.dSYM\Contents\Info.plist</dSYMInfoPlistRelativePath>
       <SymbolFile>/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/mtouch-symbols.list</SymbolFile>
-      <DSymName>LogStream.app.dSYM</DSymName>
+      <DSymName>LogStream.Maui.app.dSYM</DSymName>
       <SourceProjectPath>/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui</SourceProjectPath>
       <IsXPCService></IsXPCService>
     </_PostProcessingItem>
