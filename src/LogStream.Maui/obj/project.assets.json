@@ -581,6 +581,16 @@
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
         }
+      },
+      "LogStream.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/LogStream.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/LogStream.Core.dll": {}
+        }
       }
     },
     "net9.0-maccatalyst26.0/maccatalyst-arm64": {
@@ -1075,6 +1085,16 @@
         },
         "runtime": {
           "lib/netcoreapp2.1/_._": {}
+        }
+      },
+      "LogStream.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/LogStream.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/LogStream.Core.dll": {}
         }
       }
     }
@@ -2335,11 +2355,17 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "LogStream.Core/1.0.0": {
+      "type": "project",
+      "path": "../LogStream.Core/LogStream.Core.csproj",
+      "msbuildProject": "../LogStream.Core/LogStream.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net9.0-maccatalyst26.0": [
       "CommunityToolkit.Mvvm >= 8.2.2",
+      "LogStream.Core >= 1.0.0",
       "Microsoft.Extensions.Logging.Debug >= 9.0.9",
       "Microsoft.Maui.Controls >= 9.0.120",
       "Microsoft.NET.ILLink.Tasks >= 9.0.8",
@@ -2372,7 +2398,11 @@
       "frameworks": {
         "net9.0-maccatalyst26.0": {
           "targetAlias": "net9.0-maccatalyst",
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/LogStream.Core.csproj": {
+              "projectPath": "/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/LogStream.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

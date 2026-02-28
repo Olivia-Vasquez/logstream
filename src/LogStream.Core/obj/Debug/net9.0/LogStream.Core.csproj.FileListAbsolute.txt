@@ -1,0 +1,12 @@
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/bin/Debug/net9.0/LogStream.Core.deps.json
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/bin/Debug/net9.0/LogStream.Core.dll
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/bin/Debug/net9.0/LogStream.Core.pdb
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/obj/Debug/net9.0/LogStream.Core.GeneratedMSBuildEditorConfig.editorconfig
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/obj/Debug/net9.0/LogStream.Core.AssemblyInfoInputs.cache
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/obj/Debug/net9.0/LogStream.Core.AssemblyInfo.cs
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/obj/Debug/net9.0/LogStream.Core.csproj.CoreCompileInputs.cache
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/obj/Debug/net9.0/LogStream.Core.sourcelink.json
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/obj/Debug/net9.0/LogStream.Core.dll
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/obj/Debug/net9.0/refint/LogStream.Core.dll
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/obj/Debug/net9.0/LogStream.Core.pdb
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Core/obj/Debug/net9.0/ref/LogStream.Core.dll

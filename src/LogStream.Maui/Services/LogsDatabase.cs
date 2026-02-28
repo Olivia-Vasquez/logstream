@@ -4,11 +4,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using SQLite;
-using LogStream.Models;
+using LogStream.Core.Models;
+using LogStream.Core.Services;
 
 namespace LogStream.Services;
 
-public sealed class LogsDatabase
+public sealed class LogsDatabase : ILogsDatabase
 {
     private readonly SQLiteAsyncConnection _db;
 

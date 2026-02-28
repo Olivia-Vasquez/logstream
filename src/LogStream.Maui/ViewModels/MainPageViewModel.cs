@@ -5,7 +5,7 @@ using System.Windows.Input;
 using __XamlGeneratedCode__;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using LogStream.Models;
+using LogStream.Core.Models;
 using LogStream.Services;
 using Microsoft.Maui.Storage;
 using ObjCRuntime;

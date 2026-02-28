@@ -666,3 +666,4 @@
 /Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/LogStream.pdb
 /Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/LogStream.genruntimeconfig.cache
 /Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/ref/LogStream.dll
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/obj/Debug/net9.0-maccatalyst/maccatalyst-arm64/resourcestamps/LogStream.Core.stamp
