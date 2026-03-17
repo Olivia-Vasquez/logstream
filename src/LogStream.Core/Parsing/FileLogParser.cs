@@ -14,7 +14,7 @@ namespace LogStream.Core.Parsing
             _database = database;
         }
 
-        public void Parse(string filePath)
+        public async Task ParseAsync(string filePath)
         {
             var item = new Item
             {
@@ -23,7 +23,7 @@ namespace LogStream.Core.Parsing
                 DetailCount = 0
             };
 
-            _database.InsertItemAsync(item).Wait();
+            await _database.InsertItemAsync(item).ConfigureAwait(false);
             string[] logLines = File.ReadAllLines(filePath);
             int lineNumber = 1;
             foreach (var line in logLines)
@@ -44,10 +44,10 @@ namespace LogStream.Core.Parsing
                     level = parts[1].Replace(":", "");
                     message = parts[2];
                 }
-                catch
+                catch (FormatException)
                 {
-                    // If parsing fails, we can skip this line or log it as a raw entry
-                    message = trimmed; // Fallback to raw line as message
+                    // If parsing fails, fall back to raw line as message
+                    message = trimmed;
                     timestamp = null;
                     level = string.Empty;           
                 }
@@ -62,9 +62,9 @@ namespace LogStream.Core.Parsing
                     Raw = line
                 };
                 item.DetailCount++;
-                _database.InsertItemDetailAsync(detail).Wait();
+                await _database.InsertItemDetailAsync(detail).ConfigureAwait(false);
             }
-            _database.UpdateItemAsync(item).Wait();
+            await _database.UpdateItemAsync(item).ConfigureAwait(false);
         }
 
         public bool CanParse(string filePath)

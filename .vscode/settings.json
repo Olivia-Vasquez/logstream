@@ -1,3 +1,7 @@
 {
-    "dotnet.defaultSolution": "LogStream.sln"
+    "dotnet.defaultSolution": "LogStream.sln",
+    "chat.tools.terminal.autoApprove": {
+        "dotnet restore": true,
+        "dotnet build": true
+    }
 }

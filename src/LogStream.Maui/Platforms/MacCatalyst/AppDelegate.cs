@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace LogStream;
+namespace LogStream.Maui;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

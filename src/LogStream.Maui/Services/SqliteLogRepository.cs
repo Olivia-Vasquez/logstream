@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using LogStream.Core.Abstractions;
 using LogStream.Core.Models;
 using LogStream.Core.Services;
+// Ensure all required types are available
+// If you see errors about missing types, check your project references and SDK version
 
 namespace LogStream.Maui.Services
 {
@@ -29,7 +31,7 @@ namespace LogStream.Maui.Services
             {
                 Id = Guid.TryParse(i.Guid, out var guid) ? guid : Guid.NewGuid(),
                 FileName = i.FileName,
-                CreatedUtc = i.CreatedAt,
+                CreatedUtc = new DateTimeOffset(i.CreatedAt, TimeSpan.Zero),
                 LineCount = i.LineCount,
                 Notes = i.Notes
             }).ToList();
@@ -47,7 +49,14 @@ namespace LogStream.Maui.Services
                 Notes = upload.Notes
             };
             await _db.InsertItemAsync(item);
-            return upload;
+            return new LogUpload
+            {
+                Id = Guid.Parse(item.Guid),
+                FileName = item.FileName,
+                CreatedUtc = new DateTimeOffset(item.CreatedAt, TimeSpan.Zero),
+                LineCount = item.LineCount,
+                Notes = item.Notes
+            };
         }
 
         public async Task DeleteUploadAsync(Guid uploadId, CancellationToken ct = default)
@@ -86,7 +95,7 @@ namespace LogStream.Maui.Services
                 Id = d.Id,
                 FileName = d.FileName,
                 Message = d.Message,
-                CreatedAt = d.Timestamp ?? DateTime.UtcNow
+                CreatedAt = d.Timestamp.HasValue ? d.Timestamp.Value : DateTime.UtcNow
             }).ToList();
         }
 
@@ -96,14 +105,14 @@ namespace LogStream.Maui.Services
             var item = items.FirstOrDefault(i => i.Guid == uploadId.ToString());
             if (item == null) return new List<LogEntry>();
             var details = await _db.GetItemDetailsAsync(item.Id);
-            return details.Where(d => d.Message.Contains(query, StringComparison.OrdinalIgnoreCase))
+            return details.Where(d => d.Message != null && d.Message.Contains(query, StringComparison.OrdinalIgnoreCase))
                 .Skip(skip).Take(take)
                 .Select(d => new LogEntry
                 {
                     Id = d.Id,
                     FileName = d.FileName,
                     Message = d.Message,
-                    CreatedAt = d.Timestamp ?? DateTime.UtcNow
+                    CreatedAt = d.Timestamp.HasValue ? d.Timestamp.Value : DateTime.UtcNow
                 }).ToList();
         }
     }

@@ -1,24 +1,29 @@
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
-using __XamlGeneratedCode__;
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+
+using CommunityToolkit.Maui;
+
 using LogStream.Core.Models;
-using LogStream.Core.Services;
+using LogStream.Core.Abstractions;
 using LogStream.Core.Parsing;
-using Microsoft.Extensions.Logging;
-using Microsoft.Maui.Storage;
-using ObjCRuntime;
 
-namespace LogStream.ViewModels;
+using LogStream.Maui.Services;
+using CommunityToolkit.Maui.Extensions;
+using LogStream.Maui.Views;
 
+
+namespace LogStream.Maui.ViewModels;
 public partial class MainPageViewModel : ObservableObject
 {
-    private readonly LogStream.Core.Abstractions.ILogRepository _repository;
-    private ILogParser? _logParser;
+    // Services
+    private ILogRepository? _repository;
+    private IPopupService? _popupService;
+    private IThemeService? _themeService;
+    // private ILogParser? _logParser;
 
+    // Observable properties
     [ObservableProperty]
     private ObservableCollection<LogUpload>? _uploads;
     [ObservableProperty]
@@ -39,19 +44,45 @@ public partial class MainPageViewModel : ObservableObject
     [ObservableProperty]
     private string? _filterText;
 
-    public MainPageViewModel(LogStream.Core.Abstractions.ILogRepository repository)
+    public MainPageViewModel(ILogRepository repository, IPopupService popupService, IThemeService themeService)
     {
-        _repository = repository;
-        LoadUploads();
-        // _logParser = new FileLogParser(_repository); // If parser needs repository
+        InitServices(repository, popupService, themeService);
+        // Fire-and-forget: do NOT block the UI thread with .Result
+        _ = LoadUploadsAsync();
     }
 
-
-    private void LoadUploads()
+    private void InitServices(ILogRepository repository, IPopupService popupService, IThemeService themeService)
     {
+        Console.WriteLine("Initializing MainPageViewModel services...");
+        
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _popupService = popupService ?? throw new ArgumentNullException(nameof(popupService));
+        _themeService = themeService ?? throw new ArgumentNullException(nameof(themeService));
+    }
+
+    [RelayCommand]
+    public async Task OpenSettings()
+    {
+        if(_themeService == null || _popupService == null)
+        {
+            Console.WriteLine("Cannot open settings: services not initialized.");
+            return;
+        }
+
+        await Shell.Current.ShowPopupAsync(new SettingsPopup(new SettingsViewModel(themeService: _themeService)));
+    }
+
+    private async Task LoadUploadsAsync()
+    {
+        if(_repository == null)
+        {
+            Console.WriteLine("Cannot load uploads: repository not initialized.");
+            return;
+        }
+
         // Loads uploads from repository
         Console.WriteLine("Loading uploads from repository...");
-        var uploads = _repository.GetUploadsAsync().Result;
+        var uploads = await _repository.GetUploadsAsync();
         Uploads = new ObservableCollection<LogUpload>(uploads);
         Console.WriteLine($"Loaded {Uploads.Count} uploads from repository.");
     }
@@ -105,6 +136,8 @@ public partial class MainPageViewModel : ObservableObject
 
     private async Task ProcessLogEntryAsync(string filePath)
     {
+        if (_repository == null) return;
+
         Console.WriteLine($"Processing log from: {filePath}");
         try
         {
@@ -130,13 +163,15 @@ public partial class MainPageViewModel : ObservableObject
         {
             Console.WriteLine($"Error processing log entry: {ex.Message}");
         }
-        LoadUploads();
+        await LoadUploadsAsync();
     }
 
 
     [RelayCommand]
     private async Task GenerateSampleLogsAsync()
     {
+        if (_repository == null) return;
+        
         for (int i = 1; i <= 50; i++)
         {
             var upload = new LogUpload
@@ -155,35 +190,39 @@ public partial class MainPageViewModel : ObservableObject
             });
             await _repository.AddEntriesAsync(upload.Id, entries);
         }
-        LoadUploads();
+        await LoadUploadsAsync();
     }
 
     [RelayCommand]
-    private void ApplyFilter()
+    private async Task ApplyFilterAsync()
     {
         if (string.IsNullOrWhiteSpace(FilterText))
         {
-            LoadUploads();
+            await LoadUploadsAsync();
         }
         else
         {
-            var uploads = _repository.GetUploadsAsync().Result
+            if (_repository == null) return;
+            var uploads = await _repository.GetUploadsAsync();
+            var filtered = uploads
                 .Where(u => u.FileName.Contains(FilterText, StringComparison.OrdinalIgnoreCase))
                 .ToList();
-            Uploads = new ObservableCollection<LogUpload>(uploads);
+            Uploads = new ObservableCollection<LogUpload>(filtered);
         }
     }
 
     [RelayCommand]
-    private void UploadSelected()
+    private async Task UploadSelectedAsync()
     {
+        if(_repository == null) return;
+
         if (SelectedUpload == null)
         {
             Console.WriteLine("No upload selected.");
             return;
         }
         Console.WriteLine($"Upload selected: {SelectedUpload.FileName}");
-        var entries = _repository.GetEntriesAsync(SelectedUpload.Id).Result;
+        var entries = await _repository.GetEntriesAsync(SelectedUpload.Id);
         SelectedUploadEntries = new ObservableCollection<LogEntry>(entries);
         Console.WriteLine($"Loaded {SelectedUploadEntries.Count} entries for selected upload.");
     }

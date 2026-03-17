@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vm="clr-namespace:LogStream.Maui.ViewModels"
+    x:Class="LogStream.Maui.Views.SettingsPopup"
+    xmlns:local="clr-namespace:LogStream.Maui.Views"
+    x:DataType="vm:SettingsViewModel">
+
+    <toolkit:Popup.Resources>
+        <Style TargetType="{x:Type local:SettingsPopup}">
+            <Setter Property="BackgroundColor" Value="{DynamicResource PopupBackgroundColor}" />
+            <Setter Property="WidthRequest" Value="300" />
+            <Setter Property="HeightRequest" Value="400" />
+            <Setter Property="Padding" Value="16" />
+        </Style>
+    </toolkit:Popup.Resources>
+
+    <Border>
+        <VerticalStackLayout Padding="24" Spacing="20">
+            <Label Text="Settings" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Label Text="Theme" FontSize="16" FontAttributes="Bold" />
+            <RadioButton Content="System" IsChecked="{Binding isSystem}" />
+            <RadioButton Content="Light" IsChecked="{Binding isLight}" />
+            <RadioButton Content="Dark" IsChecked="{Binding isDark}" />
+            <Button Text="Close" Command="{Binding CloseCommand}" />
+            <Label Text="Version: {Binding AppVersion}" FontSize="12" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+    </Border>
+
+</toolkit:Popup>

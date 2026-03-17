@@ -1,13 +1,13 @@
-﻿using LogStream.ViewModels;
+﻿using LogStream.Maui.ViewModels;
 
-namespace LogStream;
+namespace LogStream.Maui.Views;
 
 public partial class MainPage : ContentPage
 {
-	public MainPage(MainPageViewModel viewModel)
+	public MainPage(MainPageViewModel vm)
 	{
 		InitializeComponent();
-		BindingContext = viewModel;
+		BindingContext = vm;
 	}
 
 	// Apply filter whenever the filter text changes

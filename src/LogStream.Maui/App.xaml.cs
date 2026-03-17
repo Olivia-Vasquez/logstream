@@ -1,14 +1,21 @@
-﻿namespace LogStream;
+﻿using LogStream.Maui.Services;
+
+namespace LogStream.Maui;
 
 public partial class App : Application
 {
-	public App()
-	{
-		InitializeComponent();
-	}
+    private readonly IServiceProvider _services;
 
-	protected override Window CreateWindow(IActivationState? activationState)
-	{
-		return new Window(new AppShell());
-	}
+    public App(IServiceProvider services, IThemeService themeService)
+    {
+        InitializeComponent();
+
+        _services = services;
+        themeService.InitializeTheme();
+    }
+
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        return new Window(_services.GetRequiredService<AppShell>());
+    }
 }
