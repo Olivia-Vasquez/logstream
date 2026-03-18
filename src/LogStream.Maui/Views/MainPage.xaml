@@ -27,9 +27,8 @@
                 HorizontalOptions="End"
                 />
             <Button Text="Settings"
-                        Command="{Binding GenerateSampleLogsCommand}"
-                        HeightRequest="32" WidthRequest="32"
-                        BackgroundColor="Transparent"
+                        Command="{Binding OpenSettingsCommand}"
+                        CornerRadius="12"
                         HorizontalOptions="End"
                         />
         </HorizontalStackLayout>

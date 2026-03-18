@@ -30,7 +30,8 @@ namespace LogStream.Maui.Services
             {
                 AppThemeMode.Light => AppTheme.Light,
                 AppThemeMode.Dark => AppTheme.Dark,
-                _ => AppTheme.Light, // Default to Light if System is selected, as the system theme will override it
+                AppThemeMode.System => AppTheme.Unspecified,
+                _ => AppTheme.Unspecified // Default to system if unknown value
             };
         }
 

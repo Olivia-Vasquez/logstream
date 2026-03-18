@@ -336,3 +336,4 @@
 /Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/bin/Debug/net10.0-maccatalyst/maccatalyst-arm64/Microsoft.VisualStudio.DesignTools.MobileTapContracts.dll
 /Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/bin/Debug/net10.0-maccatalyst/maccatalyst-arm64/Microsoft.VisualStudio.DesignTools.TapContract.dll
 /Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/bin/Debug/net10.0-maccatalyst/maccatalyst-arm64/Microsoft.VisualStudio.DesignTools.XamlTapContract.dll
+/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/obj/Debug/net10.0-maccatalyst/maccatalyst-arm64/resourcestamps/LogStream.Core.stamp
