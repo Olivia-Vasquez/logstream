@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LogStream.Maui")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+9883f1681ccddf19fb0f6434077f97fc9ea0a3da")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+773887585fcf421b617a2927287d629d602f3429")]
 [assembly: System.Reflection.AssemblyProductAttribute("LogStream.Maui")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LogStream.Maui")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

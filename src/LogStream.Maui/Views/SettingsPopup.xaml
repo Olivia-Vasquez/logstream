@@ -6,26 +6,25 @@
     xmlns:vm="clr-namespace:LogStream.Maui.ViewModels"
     x:Class="LogStream.Maui.Views.SettingsPopup"
     xmlns:local="clr-namespace:LogStream.Maui.Views"
-    x:DataType="vm:SettingsViewModel">
+    x:DataType="vm:SettingsViewModel"
+    BackgroundColor="Transparent"
+    WidthRequest="400"
+    HeightRequest="450">
 
-    <toolkit:Popup.Resources>
-        <Style TargetType="{x:Type local:SettingsPopup}">
-            <Setter Property="BackgroundColor" Value="{DynamicResource PopupBackgroundColor}" />
-            <Setter Property="WidthRequest" Value="300" />
-            <Setter Property="HeightRequest" Value="400" />
-            <Setter Property="Padding" Value="16" />
-        </Style>
-    </toolkit:Popup.Resources>
 
-    <Border>
+    <Border x:Name="PopupBorder"
+            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}"
+            Stroke="Transparent"
+            StrokeThickness="0"
+            Padding="0">
         <VerticalStackLayout Padding="24" Spacing="20">
             <Label Text="Settings" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
             <Label Text="Theme" FontSize="16" FontAttributes="Bold" />
-            <RadioButton Content="System" IsChecked="{Binding isSystem}" />
-            <RadioButton Content="Light" IsChecked="{Binding isLight}" />
-            <RadioButton Content="Dark" IsChecked="{Binding isDark}" />
+            <RadioButton Content="System" IsChecked="{Binding IsSystem}" />
+            <RadioButton Content="Light" IsChecked="{Binding IsLight}" />
+            <RadioButton Content="Dark" IsChecked="{Binding IsDark}" />
             <Button Text="Close" Command="{Binding CloseCommand}" />
-            <Label Text="Version: {Binding AppVersion}" FontSize="12" HorizontalOptions="Center" />
+            <Label Text="{Binding AppVersion, StringFormat='Version: {0}'}" FontSize="12" HorizontalOptions="Center" />
         </VerticalStackLayout>
 
     </Border>
