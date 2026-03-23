@@ -1,87 +1,59 @@
-# logstream
-Client-server system for ingesting, indexing and querying structured log and event data
+# LogStream
+Cross-platform desktop and mobile app for ingesting, indexing and browsing structured log files.
+
+## Current Status
+
+LogStream is actively in development. The MAUI app (macOS, iOS, Android, Windows) is the primary frontend and is functional for local log ingestion and browsing. The web frontend is planned but not yet started.
+
 ## Features
 
-- **Log Ingestion:** Efficiently receive and process logs from multiple sources.
-- **Indexing:** Store logs in a structured format for fast retrieval.
-- **Querying:** Powerful query interface to search and filter log/event data.
-- **Client-Server Architecture:** Scalable design with clear separation between client and server components.
-- **Extensible:** Easily add new log sources or query capabilities.
+- **Log Upload:** Pick `.log` files from disk and ingest them into a local SQLite database.
+- **Log Browsing:** Browse uploaded log files and page through their entries.
+- **Search & Filter:** Filter uploads and entries by keyword.
+- **Persistent Storage:** All uploads and log entries survive app restarts via SQLite.
+- **Theme Support:** Light, dark, and system theme modes with live switching.
+- **Shared Core:** Business logic and data models live in `LogStream.Core`, shared across frontends.
+
+## Project Structure
+
+```
+LogStream.sln
+├── src/
+│   ├── LogStream.Core/        # Models, repository abstractions, log parser
+│   └── LogStream.Maui/        # .NET MAUI cross-platform app
+│       ├── Platforms/         # MacCatalyst, iOS, Android, Windows entry points
+│       ├── Services/          # SQLite database, theme service
+│       ├── ViewModels/        # MainPage, Settings (CommunityToolkit.Mvvm)
+│       └── Views/             # MainPage, SettingsPopup
+└── tests/
+    ├── LogStream.Core.Tests/
+    └── LogStream.Maui.Tests/
+```
 
 ## Getting Started
 
 ### Prerequisites
 
-- Python 3.8+
-- pip
+- [.NET 10 SDK](https://dotnet.microsoft.com/download)
+- .NET MAUI workload: `dotnet workload install maui`
+- VS Code with the [.NET MAUI extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.dotnet-maui)
 
-### Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/oliviavasquez/logstream.git
-cd logstream
-```
-
-Install dependencies:
+### Build
 
 ```bash
-pip install -r requirements.txt
+dotnet build src/LogStream.Maui/LogStream.Maui.csproj -f net10.0-maccatalyst
 ```
 
-### Running the Server
+### Run
 
-Start the logstream server:
+Open the project in VS Code and launch via the `.NET MAUI` debug configuration, or use the MAUI extension's run button with `net10.0-maccatalyst` selected as the target framework.
 
-```bash
-python logstream/server.py
-```
+## Roadmap
 
-The server will listen for incoming log data and provide a query API.
-
-### Sending Logs
-
-Use the client to send logs:
-
-```bash
-python logstream/client.py --source /path/to/logfile.log
-```
-
-### Querying Logs
-
-Query logs via the API or CLI:
-
-```bash
-python logstream/query.py --filter "level=ERROR"
-```
-
-## Configuration
-
-Configuration options are available in `config.yaml`. You can set:
-
-- Log sources
-- Indexing strategies
-- Query parameters
-- Server port
-
-## Example Usage
-
-1. Start the server.
-2. Send logs from multiple clients.
-3. Query logs for specific events, errors, or patterns.
-
-## Project Structure
-
-```
-logstream/
-├── client.py
-├── server.py
-├── query.py
-├── indexer.py
-├── config.yaml
-└── README.md
-```
+- [ ] `LogStream.Web` — Blazor or ASP.NET web frontend backed by the same `LogStream.Core`
+- [ ] Structured log parsing improvements (timestamps, severity levels)
+- [ ] Export / share uploaded log data
+- [ ] API layer in `LogStream.Core` for frontend communication
 
 ## Contributing
 

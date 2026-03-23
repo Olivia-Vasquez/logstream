@@ -10,11 +10,7 @@
 
     <Grid Padding="24" ColumnDefinitions="2*, 5*" ColumnSpacing="36" RowDefinitions="Auto, Auto">
         <!-- Header -->
-        <HorizontalStackLayout Grid.ColumnSpan="2" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center" >
-            <Label Text="LogStream"
-                Style="{StaticResource Headline}"
-                HorizontalOptions="Start"
-                FontSize="28"/>
+        <HorizontalStackLayout Grid.ColumnSpan="2" Spacing="10" HorizontalOptions="End" VerticalOptions="Center" >
 
             <Button Text="Upload Logs"
                 Command="{Binding LogUploadCommand}"

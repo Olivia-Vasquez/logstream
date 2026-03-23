@@ -53,8 +53,10 @@ public partial class MainPageViewModel : ObservableObject
 
     private void InitServices(ILogRepository repository, IPopupService popupService, IThemeService themeService)
     {
+        // Log initialization for debugging
         Console.WriteLine("Initializing MainPageViewModel services...");
         
+        // Validate services and assign to fields
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         _popupService = popupService ?? throw new ArgumentNullException(nameof(popupService));
         _themeService = themeService ?? throw new ArgumentNullException(nameof(themeService));
@@ -97,9 +99,7 @@ public partial class MainPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    /// <summary>
-    /// Uploads the logs to the repository.
-    /// </summary>
+    // Uploads the logs to the repository.
     public async Task LogUpload()
     {
         Console.WriteLine("Log upload initiated.");
@@ -117,7 +117,7 @@ public partial class MainPageViewModel : ObservableObject
                 PickerTitle = "Select log file to upload",
                 FileTypes = customFileType
             };
-            var result = await FilePicker.Default.PickAsync();
+            var result = await FilePicker.Default.PickAsync(options);
             if (result == null)
             {
                 Console.WriteLine("No file selected for upload.");
