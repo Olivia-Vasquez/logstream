@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "H4Jl0/YWw/c=",
+  "dgSpecHash": "9xw3War+MEk=",
   "success": true,
   "projectFilePath": "/Users/oliviavasquez/Projects/logstream/logstream/src/LogStream.Maui/LogStream.Maui.csproj",
   "expectedPackageFiles": [
@@ -151,6 +151,7 @@
     "/Users/oliviavasquez/.nuget/packages/microsoft.windowsdesktop.app.ref/10.0.3/microsoft.windowsdesktop.app.ref.10.0.3.nupkg.sha512",
     "/Users/oliviavasquez/.nuget/packages/microsoft.windowsdesktop.app.ref/10.0.3/microsoft.windowsdesktop.app.ref.10.0.3.nupkg.sha512",
     "/Users/oliviavasquez/.nuget/packages/microsoft.windowsdesktop.app.ref/10.0.3/microsoft.windowsdesktop.app.ref.10.0.3.nupkg.sha512",
+    "/Users/oliviavasquez/.nuget/packages/microsoft.netcore.app.host.win-arm64/10.0.3/microsoft.netcore.app.host.win-arm64.10.0.3.nupkg.sha512",
     "/Users/oliviavasquez/.nuget/packages/microsoft.windows.sdk.net.ref/10.0.19041.57/microsoft.windows.sdk.net.ref.10.0.19041.57.nupkg.sha512"
   ],
   "logs": []
